@@ -22,6 +22,7 @@ fizzBuzz x | x `mod` 3 == 0 && x `mod` 5 == 0 = "FizzBuzz"
 
 -- We'll partially apply the fizzBuzz function to quickly 
 -- generate a helper function. 
+parallelFizzMap :: [Integer] -> [String]
 parallelFizzMap = parMap fizzBuzz
 
 -- This is just a quick helper function 
