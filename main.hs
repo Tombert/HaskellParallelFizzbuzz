@@ -7,7 +7,7 @@ import Control.Parallel (par)
 parMap :: ( a -> b) -> [a] -> [b]
 parMap f (x:xs) = let r = f x
                   in r `par` r : parMap f xs
-parMap _ _ = []
+parMap _ [] = []
 
 -- This is the actual logic to check for Fizzbuzz.  
 -- Basically the rules for fizzbuzz are "if it is
