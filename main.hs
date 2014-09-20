@@ -9,7 +9,11 @@ parMap f (x:xs) = let r = f x
                   in r `par` r : parMap f xs
 parMap _ _ = []
 
-
+-- This is the actual logic to check for Fizzbuzz.  
+-- Basically the rules for fizzbuzz are "if it is
+-- divisible by 3, write "fizz", if it's divisible
+-- 5, write "buzz", if it's divisible by 3 and 5, 
+-- write fizzbuzz, else just spit out the number. 
 fizzBuzz :: (Integral a, Show a) => a -> String
 fizzBuzz x | x `mod` 3 == 0 && x `mod` 5 == 0 = "FizzBuzz"
            | x `mod` 3 == 0 = "Fizz"
