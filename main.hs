@@ -35,7 +35,7 @@ concatWithComma x y = x ++ "," ++ y
 -- 
 -- The "" at the end is there to give some
 -- initial value and to make the types line up. 
-makeList = foldl concatWithComma ""
+makeList = tail . (foldl concatWithComma "")
 
 main :: IO ()
-main = putStrLn $ tail . makeList . parallelFizzMap $ [1..100]
+main = putStrLn $ makeList . parallelFizzMap $ [1..100]
