@@ -9,6 +9,13 @@ parMap f (x:xs) = let r = f x
                   in r `par` r : parMap f xs
 parMap _ [] = []
 
+parFoldl :: (a -> b -> a) -> a -> [b] -> a
+parFoldl _ s [] = s
+parFoldl f s (x:xs) = let r = f s x
+                          b = r `par` r
+                      in  parFoldl f (b) xs
+
+
 -- This is the actual logic to check for Fizzbuzz.  
 -- Basically the rules for fizzbuzz are "if it is
 -- divisible by 3, write "fizz", if it's divisible
@@ -25,6 +32,12 @@ fizzBuzz x | x `mod` 3 == 0 && x `mod` 5 == 0 = "FizzBuzz"
 parallelFizzMap :: [Integer] -> [String]
 parallelFizzMap = parMap fizzBuzz
 
+
+-- Just for benchmarking purposes, lets see how fast a regular 
+-- map goes. 
+fizzMap :: [Integer] -> [String]
+fizzMap = map fizzBuzz
+
 -- This is just a quick helper function 
 -- to concat two strings together. 
 concatWithComma :: String -> String -> String
@@ -35,7 +48,7 @@ concatWithComma x y = x ++ "," ++ y
 -- 
 -- The "" at the end is there to give some
 -- initial value and to make the types line up. 
-makeList = tail . (foldl concatWithComma "")
+makeList = tail . (parFoldl concatWithComma "")
 
 main :: IO ()
 main = putStrLn $ makeList . parallelFizzMap $ [1..100]
