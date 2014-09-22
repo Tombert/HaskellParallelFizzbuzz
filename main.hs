@@ -9,10 +9,19 @@ parMap f (x:xs) = let r = f x
                   in r `par` r : parMap f xs
 parMap _ [] = []
 
+
+-- I didn't copypaste this implementation, though it largely 
+-- is a remodeling from the example above.  Effectively, 
+-- this is a standard fold (or reduce) function.  It takes 
+-- in a starter value, applies a function to each one, carries
+-- an accumulator, and then spits back a single value. Fun stuff. 
 parFoldl :: (a -> b -> a) -> a -> [b] -> a
 parFoldl _ s [] = s
 parFoldl f s (x:xs) = let r = f s x
                           b = r `par` r
+                          -- I didn't like how the r `par` r was right 
+                          -- in the middle of the equation above, so I 
+                          -- gave it a value. 
                       in  parFoldl f (b) xs
 
 
