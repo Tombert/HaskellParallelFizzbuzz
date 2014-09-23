@@ -57,6 +57,7 @@ concatWithComma x y = x ++ "," ++ y
 -- 
 -- The "" at the end is there to give some
 -- initial value and to make the types line up. 
+makeList :: [String] -> String
 makeList = tail . (parFoldl concatWithComma "")
 
 main :: IO ()
